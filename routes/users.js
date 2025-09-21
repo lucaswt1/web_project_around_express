@@ -1,29 +1,27 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const {
+  getUsers,
+  getUserById,
+  createUser,
+  updateProfile,
+  updateAvatar,
+} = require('../controllers/users');
 
 const router = express.Router();
 
-// Carregar dados dos usuários
-const users = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '..', 'data', 'users.json'), 'utf8'),
-);
+// GET /users - retorna todos os usuários
+router.get('/', getUsers);
 
-// Rota GET /users - retorna lista de todos os usuários
-router.get('/', (req, res) => {
-  res.json(users);
-});
+// GET /users/:userId - retorna um usuário por _id
+router.get('/:userId', getUserById);
 
-// Rota GET /users/:id - retorna usuário específico por ID
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-  const user = users.find((u) => u._id === id);
+// POST /users - cria um novo usuário
+router.post('/', createUser);
 
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).json({ message: 'ID do usuário não encontrado' });
-  }
-});
+// PATCH /users/me - atualiza o perfil
+router.patch('/me', updateProfile);
+
+// PATCH /users/me/avatar - atualiza o avatar
+router.patch('/me/avatar', updateAvatar);
 
 module.exports = router;

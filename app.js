@@ -1,20 +1,36 @@
-const express = require("express");
+const express = require('express');
+const mongoose = require('mongoose');
 
 const app = express();
 const PORT = 3000;
 
+// Conectar ao MongoDB
+mongoose.connect('mongodb://localhost:27017/aroundb');
+
+// Middleware para parsing JSON
+app.use(express.json());
+
+// Middleware de autorização temporária
+app.use((req, res, next) => {
+  req.user = {
+    _id: '68cf94a8fe7e25688a338806', // ID do usuário teste criado anteriormente
+  };
+
+  next();
+});
+
 // Importar rotas
-const usersRouter = require("./routes/users");
-const cardsRouter = require("./routes/cards");
+const usersRouter = require('./routes/users');
+const cardsRouter = require('./routes/cards');
 
 // Usar as rotas
-app.use("/users", usersRouter);
-app.use("/cards", cardsRouter);
-app.use("/card", cardsRouter);
+app.use('/users', usersRouter);
+app.use('/cards', cardsRouter);
+app.use('/card', cardsRouter);
 
 // Middleware para capturar rotas não encontradas (404)
 app.use((req, res) => {
-  res.status(404).json({ message: "A solicitação não foi encontrada" });
+  res.status(404).json({ message: 'A solicitação não foi encontrada' });
 });
 
 app.listen(PORT, () => {
