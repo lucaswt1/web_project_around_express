@@ -1,123 +1,96 @@
-# Projeto EUA Afora - API Backend
+# Projeto EUA Afora - Backend
 
-## Descrição do Projeto
+## Sobre o projeto
 
-Este é uma API RESTful para o projeto "EUA Afora", desenvolvida como parte do bootcamp de desenvolvimento web. A API permite gerenciar usuários e cartões de viagem, incluindo funcionalidades de criação, leitura, atualização e exclusão de dados, além de sistema de curtidas.
+Este é meu primeiro projeto de backend! Criei uma API para o projeto "EUA Afora" usando Node.js e Express, agora conectada com MongoDB.
 
-## Funcionalidades
+## O que faz
 
-- **Gerenciamento de Usuários**: Criação, listagem, busca por ID e atualização de perfil/avatar
-- **Gerenciamento de Cartões**: Criação, listagem, exclusão de cartões de viagem
-- **Sistema de Curtidas**: Curtir e descurtir cartões
-- **Validação de Dados**: Validação de campos obrigatórios e URLs
-- **Tratamento de Erros**: Respostas apropriadas para diferentes tipos de erro
+- Cadastra e lista usuários
+- Cadastra e lista cartões de viagem
+- Permite curtir e descurtir cartões
+- Atualiza perfil e avatar do usuário
+- Valida dados e trata erros
 
-## Tecnologias e Técnicas Utilizadas
+## Tecnologias usadas
 
-- **Node.js** - Runtime JavaScript
-- **Express.js** - Framework web para Node.js
-- **MongoDB** - Banco de dados NoSQL
-- **Mongoose** - ODM para MongoDB
-- **ESLint** - Ferramenta de linting com configuração Airbnb
-- **Nodemon** - Reinicialização automática durante desenvolvimento
-- **Expressões Regulares** - Validação de URLs
-- **Middleware** - Autorização temporária e parsing JSON
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- ESLint (para manter o código organizado)
+- Nodemon (reinicia automaticamente quando mudo algo)
 
-## Estrutura do Projeto
+## Como rodar o projeto
+
+Primeiro, certifique-se de que o MongoDB está rodando na sua máquina.
+
+Instalar as dependências:
 
 ```
-├── controllers/          # Lógica dos controladores
-│   ├── cards.js
-│   └── users.js
-├── models/              # Modelos do banco de dados
-│   ├── card.js
-│   └── user.js
-├── routes/              # Definição das rotas
-│   ├── cards.js
-│   └── users.js
-├── app.js               # Arquivo principal da aplicação
-├── package.json         # Dependências e scripts
-└── README.md           # Documentação do projeto
-```
-
-## Como Executar o Projeto
-
-### Pré-requisitos
-
-- Node.js instalado
-- MongoDB rodando localmente na porta 27017
-
-### Instalação
-
-```bash
 npm install
 ```
 
-### Execução
+Iniciar o servidor:
 
-Para produção:
-
-```bash
+```
 npm run start
 ```
 
-Para desenvolvimento (com reinicialização automática):
+Ou para desenvolvimento (reinicia sozinho):
 
-```bash
+```
 npm run dev
 ```
 
-O servidor será iniciado em `http://localhost:3000`
+O servidor vai rodar em http://localhost:3000
 
-## Rotas da API
+## Rotas disponíveis
 
 ### Usuários
 
-- `GET /users` - Retorna todos os usuários
-- `GET /users/:userId` - Retorna usuário específico por ID
-- `POST /users` - Cria novo usuário
-- `PATCH /users/me` - Atualiza perfil do usuário atual
-- `PATCH /users/me/avatar` - Atualiza avatar do usuário atual
+- `GET /users` - lista todos os usuários
+- `GET /users/:userId` - busca um usuário específico
+- `POST /users` - cria um novo usuário
+- `PATCH /users/me` - atualiza meu perfil
+- `PATCH /users/me/avatar` - atualiza meu avatar
 
 ### Cartões
 
-- `GET /cards` - Retorna todos os cartões
-- `POST /cards` - Cria novo cartão
-- `DELETE /cards/:cardId` - Deleta cartão por ID
-- `PUT /cards/:cardId/likes` - Curte um cartão
-- `DELETE /cards/:cardId/likes` - Descurte um cartão
+- `GET /cards` - lista todos os cartões
+- `POST /cards` - cria um novo cartão
+- `DELETE /cards/:cardId` - deleta um cartão
+- `PUT /cards/:cardId/likes` - curte um cartão
+- `DELETE /cards/:cardId/likes` - descurte um cartão
 
-## Códigos de Status HTTP
+## Testando no Postman
 
-- `200` - Sucesso
-- `201` - Criado com sucesso
-- `400` - Dados inválidos
-- `404` - Recurso não encontrado
-- `500` - Erro interno do servidor
+Para criar um usuário:
 
-## Exemplo de Uso
-
-### Criar um usuário
-
-```bash
+```json
 POST /users
-Content-Type: application/json
-
 {
   "name": "João Silva",
-  "about": "Viajante apaixonado",
-  "avatar": "https://example.com/avatar.jpg"
+  "about": "Gosto de viajar",
+  "avatar": "https://example.com/foto.jpg"
 }
 ```
 
-### Criar um cartão
+Para criar um cartão:
 
-```bash
+```json
 POST /cards
-Content-Type: application/json
-
 {
   "name": "Viagem incrível",
-  "link": "https://example.com/photo.jpg"
+  "link": "https://example.com/foto-viagem.jpg"
 }
 ```
+
+## O que aprendi
+
+- Como conectar com banco de dados MongoDB
+- Criar modelos e esquemas com Mongoose
+- Fazer validações de dados
+- Tratar diferentes tipos de erro
+- Organizar código em controllers e routes
+- Usar operadores do MongoDB ($addToSet, $pull)
