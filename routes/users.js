@@ -1,6 +1,7 @@
 const express = require('express');
 const {
   getUsers,
+  getCurrentUser,
   getUserById,
   createUser,
   updateProfile,
@@ -11,6 +12,9 @@ const router = express.Router();
 
 // GET /users - retorna todos os usuários
 router.get('/', getUsers);
+
+// GET /users/me - retorna o usuário atual (deve vir antes de /:userId)
+router.get('/me', getCurrentUser);
 
 // GET /users/:userId - retorna um usuário por _id
 router.get('/:userId', getUserById);

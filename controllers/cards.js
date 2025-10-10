@@ -1,14 +1,15 @@
-const Card = require("../models/card");
+const Card = require('../models/card');
 
 // GET /cards - retorna todos os cartões
 module.exports.getCards = (req, res) => {
   Card.find({})
+    .sort({ createdAt: -1 }) // Ordena por data de criação, mais recente primeiro
     .then((cards) => {
       res.json(cards);
     })
     .catch((err) => {
       console.log(err.name); // Para debug
-      return res.status(500).json({ message: "Erro interno do servidor" });
+      return res.status(500).json({ message: 'Erro interno do servidor' });
     });
 };
 
@@ -24,11 +25,11 @@ module.exports.createCard = (req, res) => {
     .catch((err) => {
       console.log(err.name); // Para debug
 
-      if (err.name === "ValidationError") {
-        return res.status(400).json({ message: "Dados inválidos" });
+      if (err.name === 'ValidationError') {
+        return res.status(400).json({ message: 'Dados inválidos' });
       }
 
-      return res.status(500).json({ message: "Erro interno do servidor" });
+      return res.status(500).json({ message: 'Erro interno do servidor' });
     });
 };
 
@@ -38,25 +39,25 @@ module.exports.deleteCard = (req, res) => {
 
   Card.findByIdAndDelete(cardId)
     .orFail(() => {
-      const error = new Error("Cartão não encontrado");
+      const error = new Error('Cartão não encontrado');
       error.statusCode = 404;
       throw error;
     })
     .then(() => {
-      res.json({ message: "Cartão deletado com sucesso" });
+      res.json({ message: 'Cartão deletado com sucesso' });
     })
     .catch((err) => {
       console.log(err.name); // Para debug
 
-      if (err.name === "CastError") {
-        return res.status(400).json({ message: "ID do cartão inválido" });
+      if (err.name === 'CastError') {
+        return res.status(400).json({ message: 'ID do cartão inválido' });
       }
 
       if (err.statusCode === 404) {
-        return res.status(404).json({ message: "Cartão não encontrado" });
+        return res.status(404).json({ message: 'Cartão não encontrado' });
       }
 
-      return res.status(500).json({ message: "Erro interno do servidor" });
+      return res.status(500).json({ message: 'Erro interno do servidor' });
     });
 };
 
@@ -67,10 +68,10 @@ module.exports.likeCard = (req, res) => {
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: req.user._id } }, // adicione _id ao array se ele não estiver lá
-    { new: true }
+    { new: true },
   )
     .orFail(() => {
-      const error = new Error("Cartão não encontrado");
+      const error = new Error('Cartão não encontrado');
       error.statusCode = 404;
       throw error;
     })
@@ -80,15 +81,15 @@ module.exports.likeCard = (req, res) => {
     .catch((err) => {
       console.log(err.name); // Para debug
 
-      if (err.name === "CastError") {
-        return res.status(400).json({ message: "ID do cartão inválido" });
+      if (err.name === 'CastError') {
+        return res.status(400).json({ message: 'ID do cartão inválido' });
       }
 
       if (err.statusCode === 404) {
-        return res.status(404).json({ message: "Cartão não encontrado" });
+        return res.status(404).json({ message: 'Cartão não encontrado' });
       }
 
-      return res.status(500).json({ message: "Erro interno do servidor" });
+      return res.status(500).json({ message: 'Erro interno do servidor' });
     });
 };
 
@@ -99,10 +100,10 @@ module.exports.dislikeCard = (req, res) => {
   Card.findByIdAndUpdate(
     cardId,
     { $pull: { likes: req.user._id } }, // remove _id do array
-    { new: true }
+    { new: true },
   )
     .orFail(() => {
-      const error = new Error("Cartão não encontrado");
+      const error = new Error('Cartão não encontrado');
       error.statusCode = 404;
       throw error;
     })
@@ -112,14 +113,14 @@ module.exports.dislikeCard = (req, res) => {
     .catch((err) => {
       console.log(err.name); // Para debug
 
-      if (err.name === "CastError") {
-        return res.status(400).json({ message: "ID do cartão inválido" });
+      if (err.name === 'CastError') {
+        return res.status(400).json({ message: 'ID do cartão inválido' });
       }
 
       if (err.statusCode === 404) {
-        return res.status(404).json({ message: "Cartão não encontrado" });
+        return res.status(404).json({ message: 'Cartão não encontrado' });
       }
 
-      return res.status(500).json({ message: "Erro interno do servidor" });
+      return res.status(500).json({ message: 'Erro interno do servidor' });
     });
 };
